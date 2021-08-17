@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-
-        </style>
+        <link rel='stylesheet' href='styles.css'>
+        <script type="text/javascript" src="rps-scripts.js" defer></script>
     </head>
     <body>
-
+        <div id="container">
+            <button id='rock' label='rock' type="button">Rock</button>
+            <button id="paper" label='paper' type="button">Paper</button>
+            <button id='scissors' label='scissors' type="button">Scissors</button>
+        </div>
+        <div id='result-titles'>
+            <div>Wins</div>
+            <div>Losses</div>
+            <div>Ties</div>
+        </div>
+        <div id='results'>
+            <div id='winTotal' class='totals'>0</div>
+            <div id='lossTotal' class='totals'>0</div>
+            <div id='tieTotal' class='totals'>0</div>
+        </div>
+        <div id='result-text'></div>
     </body>
-    <script type="text/javascript" src="rps-scripts.js"></script>
 </html>>

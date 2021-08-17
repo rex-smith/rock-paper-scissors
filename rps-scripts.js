@@ -1,3 +1,10 @@
+let wins = 0;
+let losses = 0;
+let ties = 0;
+let winText = document.querySelector('#winTotal');
+let lossText = document.querySelector('#lossTotal');
+let tieText = document.querySelector('#tieTotal');
+
 function computerPlay() {
     numChoice = Math.floor(Math.random()*3+1);
     let actionChoice;
@@ -17,77 +24,94 @@ function computerPlay() {
     return actionChoice.toLowerCase();
 }
 
-function getPlayerSelection() {
-    let playerChoice = prompt('Please type your selection: ');
-    playerChoice = playerChoice.toLowerCase();
-    console.log(playerChoice);
-    while (playerChoice !== 'rock' && 
-        playerChoice !== 'paper' && 
-        playerChoice !== 'scissors') {
-        alert('Your response is not a valid choice.');
-        playerChoice = prompt('Please type your selection: ');
-    }
-    return playerChoice;
+var buttonList = document.querySelectorAll('button');
+
+buttonList.forEach((button) => {
+    button.addEventListener('click', playerSubmit)
+});
+
+function playerSubmit(e) {
+    game(this.id);
 }
+
+const resultOutput = document.querySelector('#result-text');
 
 function playRPS(playerSelection, computerSelection) {
 
     if (playerSelection === 'rock') {
         if (computerSelection === 'rock') {
-            console.log('You tied. Rock stalemates with Rock.');
+            resultOutput.textContent = 'You tied. Rock stalemates with Rock.';
             return 'tie';
         } else if (computerSelection === 'paper') {
-            console.log('You Lose! Paper beats Rock');
+            resultOutput.textContent = 'You Lose! Paper beats Rock';
             return 'loss';
         } else {
-            console.log('You Win! Rock beats Scissors');
+            resultOutput.textContent = 'You Win! Rock beats Scissors';
             return 'win';
         }
     } else if (playerSelection === 'paper') {
         if (computerSelection === 'paper') {
-            console.log('You tied. Paper stalemates with Paper.');
+            resultOutput.textContent = 'You tied. Paper stalemates with Paper.';
             return 'tie';
         } else if (computerSelection === 'scissors') {
-            console.log('You Lose! Scissors beats Paper');
+            resultOutput.textContent = 'You Lose! Scissors beats Paper';
             return 'loss';
         } else {
-            console.log('You Win! Paper beats Rock');
+            resultOutput.textContent = 'You Win! Paper beats Rock';
             return 'win';
         }
     } else if (playerSelection === 'scissors') {
         if (computerSelection === 'scissors') {
-            console.log('You tied. Scissors stalemates with Scissors.');
+            resultOutput.textContent = 'You tied. Scissors stalemates with Scissors.';
             return 'tie';
         } else if (computerSelection === 'rock') {
-            console.log('You Lose! Rock beats Scissors');
+            resultOutput.textContent = 'You Lose! Rock beats Scissors';
             return 'loss';
         } else {
-            console.log('You Win! Scissors beats Paper');
+            resultOutput.textContent = 'You Win! Scissors beats Paper';
             return 'win';
         }
     }
 }
 
-function game() {
-    let wins = 0;
-    let losses = 0;
-    let ties = 0;
-    let rounds = 0;
-    for (i = 0; i < 5; i++) {
-        let playerChoice = getPlayerSelection();
+
+
+
+function game(playerChoice) {
         let computerChoice = computerPlay();
         let result = playRPS(playerChoice, computerChoice);
-        console.log(result);
-        if (result === 'tie') {
-            ties++;
-        } else if (result === 'win') {
-            wins++;
-        } else {
-            losses++;
+        switch (result) {
+            case 'win':
+                wins++;
+                winText.textContent = wins;
+                break;
+            case 'loss':
+                losses++;
+                lossText.textContent = losses;
+                break;
+            case 'tie':
+                ties++;
+                tieText.textContent = ties;
+                break;
+            default:
+                return "ERROR";
         }
-        rounds++;
+        console.log(result);
+        if (wins===5) {
+            resultOutput.textContent = 'User wins!';
+            wins = 0;
+            winText.textContent = wins;
+            losses = 0;
+            lossText.textContent = losses;
+            ties = 0;
+            tieText.textContent = ties;
+        } else if (losses===5) {
+            resultOutput.textContent = 'CPU wins!';
+            wins = 0;
+            winText.textContent = wins;
+            losses = 0;
+            lossText.textContent = losses;
+            ties = 0;
+            tieText.textContent = ties;
+        }
     }
-    alert(`You won ${wins} games, lost ${losses} games, and tied ${ties} games!`);
-}
-
-game();
